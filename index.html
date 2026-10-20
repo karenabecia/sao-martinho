@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DashWay para a São Martinho | Dashboards no Excel</title>
+<meta name="description" content="DashWay, treinamento de Dashboards no Excel com Karen Abecia. Online e ao vivo, 12 horas de treinamento, turmas de até 20 pessoas. Agende a palestra gratuita.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#ffffff">
+<meta property="og:title" content="DashWay: Dashboards no Excel para a São Martinho">
+<meta property="og:description" content="Treinamento online e ao vivo com Karen Abecia. Agende a palestra gratuita de 1h.">
+<meta property="og:image" content="assets/dash-6.jpg">
+<link rel="preload" href="assets/poppins-700.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Poppins";font-weight:500;font-style:normal;font-display:swap;src:url(assets/poppins-500.woff2) format("woff2")}
+@font-face{font-family:"Poppins";font-weight:700;font-style:normal;font-display:swap;src:url(assets/poppins-700.woff2) format("woff2")}
+
+:root{
+  --ink:#1d1d22;
+  --ink-2:#3b3b44;
+  --muted:#62626d;
+  --line:#e8e5e0;
+  --bg:#ffffff;
+  --surface:#f7f5f2;
+  --orange:#ff5000;
+  --orange-dark:#d94400;
+  --orange-soft:#fff1e9;
+  --dark:#18181c;
+  --radius:16px;
+  --shadow:0 1px 2px rgba(20,20,30,.06),0 12px 32px -12px rgba(20,20,30,.18);
+  --wrap:1120px;
+  --head:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+h1,h2,h3{font-family:var(--head);font-weight:700;line-height:1.15;letter-spacing:-.02em;margin:0 0 .5em}
+h1{font-size:clamp(2rem,4.6vw,3rem)}
+h2{font-size:clamp(1.6rem,3.6vw,2.4rem)}
+h3{font-size:1.1rem;letter-spacing:-.01em}
+p{margin:0 0 1em}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+section{padding:clamp(64px,9vw,112px) 0}
+.kicker{display:inline-block;font:500 .78rem/1 var(--head);letter-spacing:.12em;text-transform:uppercase;color:var(--orange-dark);margin-bottom:14px}
+.lead{font-size:1.12rem;color:var(--ink-2);max-width:40em}
+.center{text-align:center}
+.center .lead{margin-left:auto;margin-right:auto}
+.hl{color:var(--orange)}
+
+/* Botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 26px;border-radius:999px;border:0;cursor:pointer;font:700 1rem/1.2 var(--head);text-decoration:none;transition:transform .15s ease,background .15s ease,box-shadow .15s ease}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 8px 20px -8px rgba(255,80,0,.6)}
+.btn-primary:hover{background:var(--orange-dark);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn:focus-visible,a:focus-visible,summary:focus-visible,button:focus-visible{outline:3px solid #ffb38a;outline-offset:3px}
+
+/* Topo */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+.top.scrolled{border-bottom-color:var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.brand img.k{height:30px;width:auto}
+.for{display:flex;align-items:center;gap:8px;padding-left:14px;border-left:1px solid var(--line);font-size:.8rem;color:var(--muted);white-space:nowrap}
+.for img{width:26px;height:26px}
+.for b{color:var(--ink);font-weight:600}
+.top .btn{min-height:42px;padding:10px 18px;font-size:.9rem}
+
+/* Hero */
+.hero{padding:clamp(40px,7vw,88px) 0 clamp(56px,8vw,96px);background:radial-gradient(1100px 500px at 85% 0%,var(--orange-soft),transparent 60%)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;align-items:center}
+.hero .dashway{height:46px;width:auto;margin:0 0 22px -4px}
+
+.facts{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:26px 0 30px}
+.facts li{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:.9rem;font-weight:500;color:var(--ink-2)}
+.facts li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange)}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.cta-note{font-size:.88rem;color:var(--muted);margin-top:14px}
+.hero-visual{position:relative}
+.frame{background:#fff;border-radius:14px;box-shadow:var(--shadow);border:1px solid var(--line);overflow:hidden}
+.frame-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line);background:#fafaf9}
+.frame-bar i{width:9px;height:9px;border-radius:50%;background:#e2ded8}
+.frame-bar span{margin-left:8px;font-size:.8rem;font-weight:500;color:var(--ink-2)}
+.badge-float{position:absolute;left:-18px;bottom:-62px;background:var(--dark);color:#fff;border-radius:14px;padding:14px 18px;box-shadow:var(--shadow);font:500 .85rem/1.35 var(--head);max-width:230px}
+.badge-float b{display:block;color:#ffb38a;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+
+/* Dores */
+.pains{background:var(--surface)}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.card .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--orange-soft);color:var(--orange-dark);margin-bottom:16px}
+.card .ic svg{width:22px;height:22px}
+.card p{margin:0;color:var(--ink-2)}
+.card h3{margin-bottom:6px}
+.areas{margin-top:34px;text-align:center;color:var(--muted);font-size:.95rem}
+.areas b{color:var(--ink)}
+
+/* Virada */
+.turn{background:var(--dark);color:#f2f2f4}
+.turn .kicker{color:#ffb38a}
+.turn .lead{color:#c9c9d1}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:14px;align-items:stretch;margin-top:44px}
+.step{background:#24242a;border:1px solid #33333b;border-radius:var(--radius);padding:24px}
+.step small{display:block;font:500 .72rem/1 var(--head);letter-spacing:.12em;text-transform:uppercase;color:#9a9aa6;margin-bottom:10px}
+.step h3{color:#fff;margin-bottom:6px}
+.step p{margin:0;color:#b9b9c3;font-size:.95rem}
+.step.last{background:var(--orange);border-color:var(--orange)}
+.step.last small{color:#ffe0cf}.step.last p{color:#fff}
+.arrow{display:grid;place-items:center;color:#6c6c78}
+.arrow svg{width:28px;height:28px}
+
+/* Antes e depois */
+.ba>*,.hero-grid>*,.how-grid>*,.teacher-grid>*{min-width:0}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:44px;align-items:start}
+.ba-label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.tag{font:700 .78rem/1 var(--head);letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-radius:999px}
+.tag.before{background:#fde8e8;color:#b42318}
+.tag.after{background:#e3f4ea;color:#17703d}
+.ill{font-size:.75rem;color:var(--muted);font-style:italic}
+.ba-cap{margin:12px 2px 0;font-size:.95rem;color:var(--ink-2)}
+.sheet{background:#fff;border:1px solid #d9d6d0;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);font:12px/1.2 Consolas,"Courier New",monospace;color:#333}
+.sheet-tabs{display:flex;gap:2px;background:#eceae6;padding:6px 6px 0;overflow:hidden}
+.sheet-tabs span{background:#dcd9d3;padding:5px 8px;border-radius:5px 5px 0 0;white-space:nowrap;font-size:11px;color:#555}
+.sheet-tabs span.on{background:#fff;color:#222}
+.sheet table{border-collapse:collapse;width:100%;table-layout:fixed}
+.sheet td{border:1px solid #e3e0da;padding:5px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sheet tr:first-child td{background:#f1efea;font-weight:700}
+.sheet .y{background:#fff59d}.sheet .r{color:#c62828;font-weight:700}.sheet .o{background:#ffd8b5}.sheet .g{color:#9a9a9a}.sheet .err{color:#c62828;background:#fde8e8}
+.sheet-note{padding:8px 10px;background:#fff8e1;border-top:1px solid #f0e3b5;font-size:11px;color:#7a5b00}
+
+/* Galeria */
+.gallery{background:var(--surface)}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+.gal figure{margin:0}
+.gal button{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
+.gal img{aspect-ratio:2/1;object-fit:cover;object-position:top left;width:100%;transition:transform .35s ease}
+.gal button:hover img{transform:scale(1.03)}
+.gal figcaption{margin-top:10px;font-size:.9rem;color:var(--muted)}
+.note{text-align:center;margin:32px 0 0;font-size:.88rem;color:var(--muted);font-style:italic}
+.lightbox{border:0;padding:0;background:transparent;max-width:min(1200px,94vw);max-height:92vh}
+.lightbox::backdrop{background:rgba(15,15,20,.85)}
+.lightbox img{max-height:86vh;width:auto;margin:0 auto;border-radius:10px}
+.lightbox form{position:absolute;top:8px;right:8px}
+.lightbox button{width:44px;height:44px;border-radius:50%;border:0;background:#fff;color:var(--ink);font-size:22px;cursor:pointer;box-shadow:var(--shadow)}
+
+/* Resultados */
+.outcomes .card{padding:30px}
+.outcomes .num{font:700 .82rem/1 var(--head);color:var(--orange);letter-spacing:.08em;margin-bottom:14px;display:block}
+
+/* Como funciona */
+.how-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;margin-top:40px}
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.spec div{background:#fff;padding:22px}
+.spec small{display:block;color:var(--muted);font-size:.82rem;margin-bottom:4px}
+.spec strong{font:700 1.15rem/1.25 var(--head)}
+.incl{background:var(--orange-soft);border-radius:var(--radius);padding:28px}
+.incl h3{margin-bottom:16px}
+.incl ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.incl li{display:flex;gap:12px;align-items:flex-start;font-weight:500}
+.incl li svg{flex:none;width:22px;height:22px;color:var(--orange-dark);margin-top:1px}
+
+/* Instrutora */
+.teacher{background:var(--surface)}
+.teacher-grid{display:grid;grid-template-columns:340px 1fr;gap:56px;align-items:center}
+.teacher img{border-radius:20px;box-shadow:var(--shadow);aspect-ratio:4/5;object-fit:cover;width:100%}
+.creds{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px}
+.creds li{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.creds b{font:700 1.4rem/1 var(--head);color:var(--orange);min-width:58px}
+.creds span{color:var(--ink-2)}
+
+/* Prova social */
+.sm-card{display:flex;gap:22px;align-items:center;background:#fff;border:1px solid var(--line);border-left:5px solid #0d3a7a;border-radius:var(--radius);padding:26px 28px;margin-top:40px;box-shadow:var(--shadow)}
+.sm-card img{width:64px;height:64px;flex:none}
+.sm-card p{margin:0;font-size:1.08rem;color:var(--ink-2)}
+.sm-card strong{color:var(--ink)}
+.clients{margin-top:44px;text-align:center}
+.clients p{font:500 1rem/1.4 var(--head);color:var(--muted);margin-bottom:22px}
+.logos{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:20px 48px}
+.logos img{height:52px;width:auto}
+.bonus{max-width:620px;margin:22px auto 0;display:flex;gap:20px;align-items:flex-start;background:linear-gradient(135deg,#fff7f2,#fff);border:2px solid var(--orange);border-radius:20px;padding:26px 28px;box-shadow:0 14px 34px -18px rgba(255,80,0,.55)}
+.bonus-ic{flex:none;width:52px;height:52px;border-radius:14px;background:var(--orange);color:#fff;display:grid;place-items:center}
+.bonus-ic svg{width:26px;height:26px}
+.bonus-tag{display:inline-block;font:700 .72rem/1 var(--head);letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--dark);padding:6px 10px;border-radius:999px;margin-bottom:10px}
+.bonus h3{font-size:1.2rem;margin-bottom:8px}
+.bonus p{margin:0;color:var(--ink-2);font-size:.98rem}
+.ph{border:2px dashed #f0a57f;background:repeating-linear-gradient(-45deg,#fff8f3,#fff8f3 12px,#fff 12px,#fff 24px);border-radius:var(--radius);min-height:180px;display:grid;place-items:center;text-align:center;padding:22px;color:#a3410c;font-size:.88rem;font-weight:600}
+.ph small{display:block;font-weight:400;color:#b4673f;margin-top:6px}
+.video{margin-top:48px;aspect-ratio:16/9;max-width:640px;margin-left:auto;margin-right:auto}
+.video.ph{min-height:0}
+.yt{position:relative;display:block;width:100%;height:100%;background:#000;border-radius:var(--radius);overflow:hidden;cursor:pointer;box-shadow:var(--shadow)}
+.yt img{width:100%;height:100%;object-fit:cover;opacity:.88;transition:opacity .2s}
+.yt:hover img{opacity:1}
+.video iframe{width:100%;height:100%;border:0;border-radius:var(--radius);display:block}
+.yt span{position:absolute;inset:0;display:grid;place-items:center}
+.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* Investimento */
+.price-box{max-width:620px;margin:40px auto 0;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.price-top{padding:34px 32px 28px;text-align:center}
+.from{color:var(--muted);font-size:.95rem}
+.from s{color:var(--muted);text-decoration-thickness:2px}
+.now{font:700 clamp(2.6rem,7vw,3.6rem)/1 var(--head);letter-spacing:-.03em;margin:10px 0 6px}
+.now small{font-size:1rem;font-weight:500;color:var(--muted);letter-spacing:0}
+.save{display:inline-block;margin-top:10px;background:#e3f4ea;color:#17703d;font-weight:600;font-size:.9rem;padding:7px 14px;border-radius:999px}
+.price-team{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:20px 32px;background:var(--surface);border-top:1px solid var(--line)}
+.price-team span{color:var(--ink-2)}
+.price-team strong{font:700 1.2rem/1.2 var(--head)}
+.price-team s{color:var(--muted);font-weight:400;font-size:.95rem;margin-left:8px}
+.price-foot{text-align:center;color:var(--muted);font-size:.92rem;margin-top:22px}
+.live{display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;padding:7px 14px;border-radius:999px;background:var(--orange-soft);color:var(--orange-dark);font:600 .85rem/1 var(--head)}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(255,80,0,.18)}
+.price-proj{border-top:1px dashed var(--line)}
+.price-proj span small{display:block;color:var(--muted);font-size:.82rem}
+
+/* Palestra */
+.talk{background:var(--dark);color:#f2f2f4;position:relative;overflow:hidden}
+.talk::before{content:"";position:absolute;width:600px;height:600px;right:-200px;top:-260px;background:radial-gradient(circle,rgba(255,80,0,.35),transparent 65%)}
+.talk .wrap{position:relative}
+.talk .kicker{color:#ffb38a}
+.talk .lead{color:#c9c9d1}
+.talk-points{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;list-style:none;padding:0;margin:26px 0 34px}
+.talk-points li{padding:9px 16px;border-radius:999px;border:1px solid #3a3a44;color:#e6e6ea;font-size:.92rem;font-weight:500}
+.mail-help{margin:26px auto 0;max-width:520px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;font-size:.95rem;color:#b9b9c3}
+.mail-help code{font:600 1rem/1 var(--body);color:#fff;background:#26262d;border:1px solid #3a3a44;padding:10px 14px;border-radius:10px;user-select:all}
+.copy{min-height:42px;padding:10px 16px;border-radius:10px;border:1px solid #4a4a55;background:transparent;color:#fff;font:600 .9rem/1 var(--head);cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.copy:hover{border-color:#fff}
+.copy svg{width:16px;height:16px}
+.copy.ok{border-color:#3ecf7a;color:#3ecf7a}
+.mail-tip{margin-top:14px;font-size:.85rem;color:#8d8d99}
+
+/* FAQ */
+
+/* Final e rodapé */
+footer{border-top:1px solid var(--line);padding:30px 0 100px;font-size:.85rem;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+footer img{height:24px;width:auto}
+footer a{color:var(--muted)}
+
+/* CTA fixo no celular */
+.mbar{position:fixed;left:12px;right:12px;bottom:12px;z-index:30;transform:translateY(140%);transition:transform .3s ease;display:none}
+.mbar.show{transform:none}
+.mbar .btn{width:100%;box-shadow:0 10px 30px -6px rgba(0,0,0,.35)}
+
+/* Animação sutil */
+.js .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .reveal{opacity:1;transform:none;transition:none}.btn,.gal img{transition:none}}
+
+/* Responsivo */
+@media (max-width:960px){
+  .hero-grid,.how-grid,.teacher-grid{grid-template-columns:1fr}
+  .hero-grid{gap:44px}
+  .grid-3,.grid-4,.gal,.proof-grid{grid-template-columns:1fr 1fr}
+  .flow{grid-template-columns:1fr;gap:8px}
+  .arrow{transform:rotate(90deg);height:32px}
+  .ba{grid-template-columns:1fr}
+  .teacher-grid{gap:32px}
+  .teacher img{max-width:320px}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 16px}
+  .for span.lbl,.top .btn{display:none}
+  .grid-3,.grid-4,.gal,.proof-grid{grid-template-columns:1fr}
+  .spec{grid-template-columns:1fr 1fr}
+  .spec div{padding:16px}
+  .spec strong{font-size:1rem}
+  .badge-float{left:10px;bottom:-58px;max-width:210px;padding:12px 14px}
+  .hero .dashway{height:38px}
+
+  .cta-row .btn{width:100%}
+  .sm-card{flex-direction:column;align-items:flex-start;padding:22px}
+  .price-top{padding:28px 20px 22px}
+  .price-team{padding:18px 20px}
+  .sheet{font-size:10.5px}
+  .sheet td{padding:4px}
+  .mbar{display:block}
+  .bonus{flex-direction:column;gap:14px;padding:22px 20px}
+  .logos{gap:18px 32px}
+  .logos img{height:40px}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.className+=" js"</script>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <div class="brand">
+      <img class="k" src="assets/logo-karen.png" alt="Escola Karen Abecia" width="360" height="123">
+      <div class="for"><span class="lbl">Proposta para</span><img src="assets/logo-saomartinho.png" alt="" width="120" height="120"><b>São Martinho</b></div>
+    </div>
+    <a class="btn btn-primary js-agendar" href="mailto:stefano@t2t.com.br?subject=Agendar%20palestra%20gratuita%20DashWay">Agendar palestra gratuita</a>
+  </div>
+</header>
+
+<main>
+
+<!-- 1. Topo -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <img class="dashway" src="assets/logo-dashway.png" alt="DashWay" width="320" height="178">
+      <h1>Do relatório bagunçado ao <span class="hl">Dashboard que se atualiza</span> sozinho.</h1>
+      <p class="lead">DashWay é o treinamento de Dashboards no Excel da Escola Karen Abecia, que já treinou mais de 10 mil pessoas. Para gestores e equipes de qualquer área que trabalham com planilhas e querem enxergar os números com clareza.</p>
+      <ul class="facts" aria-label="Resumo do treinamento">
+        <li>12 horas de treinamento</li>
+        <li>Online e ao vivo</li>
+        <li>Turmas de até 20 pessoas</li>
+        <li>Sem pré-requisito</li>
+      </ul>
+      <div class="cta-row">
+        <a class="btn btn-primary js-agendar" href="mailto:stefano@t2t.com.br?subject=Agendar%20palestra%20gratuita%20DashWay">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+          Agendar palestra gratuita
+        </a>      </div>
+      <p class="cta-note">Palestra de degustação.</p>
+    </div>
+    <div class="hero-visual">
+      <div class="frame">
+        <div class="frame-bar"><i></i><i></i><i></i><span>Esse foi o Dashboard criado ao longo do treinamento com a São Martinho</span></div>
+        <img src="assets/dash-6.jpg" alt="Dashboard de produção feito no Excel, com TAH, TCH, ATR e TON por ciclo, análise de ambiente e orçamento por variedade" width="1082" height="528" fetchpriority="high">
+      </div>
+      <div class="badge-float"><b>Feito no Excel</b>Sem programação e sem ferramenta extra.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Dores -->
+<section class="pains">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="kicker">Soa familiar?</span>
+      <h2>Muito tempo planilhando. Pouco tempo analisando.</h2>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/><path d="M14 13l3 3M17 13l-3 3"/></svg></div>
+        <h3>O relatório chega bagunçado</h3>
+        <p>O arquivo baixado do sistema precisa ser arrumado de novo. Todo mês.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h9l3 3v11H8z"/><path d="M4 7v14h12"/></svg></div>
+        <h3>Várias versões da mesma planilha</h3>
+        <p>Arquivos espalhados, cada um com um número diferente. Qual é o certo?</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M7 12l3-3 2 2 4-4"/></svg></div>
+        <h3>Muito tempo perdido copiando slides</h3>
+        <p>Calcula, copia, cola e confere. Toda apresentação começa do zero.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>Retrabalho e erro humano</h3>
+        <p>Horas repetindo a mesma tarefa. Basta um dígito errado para mudar o resultado.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6"/></svg></div>
+        <h3>Falta de visão clara</h3>
+        <p>Muitos números na tela e pouca clareza na hora de decidir.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="4"/><path d="M5 21v-1a7 7 0 0114 0v1"/></svg></div>
+        <h3>Dependência do dono da planilha</h3>
+        <p>Quando essa pessoa sai de férias, o relatório para junto.</p>
+      </div>
+    </div>
+    <p class="areas reveal">Acontece no <b>Financeiro, RH, Comercial, Operações, Suprimentos, Manutenção</b>... em qualquer área que usa Excel.</p>
+  </div>
+</section>
+
+<!-- 3. A virada -->
+<section class="turn">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="kicker">A virada</span>
+      <h2>Faça uma única vez.</h2>
+      <p class="lead">Todo esse trabalho pode ser montado uma única vez, em um painel único no Excel. Chegaram dados novos? O Dashboard se atualiza automaticamente.</p>
+    </div>
+    <div class="flow reveal">
+      <div class="step"><small>Passo 1</small><h3>Dados do sistema</h3><p>O relatório do ERP ou a planilha de sempre, do jeito que chega hoje.</p></div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="step"><small>Passo 2</small><h3>Excel organiza</h3><p>A limpeza e os cálculos ficam prontos. Nada de arrumar à mão.</p></div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="step last"><small>Resultado</small><h3>Dashboard pronto</h3><p>Indicadores visuais, em um só lugar, para apoiar a decisão.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. Antes e depois -->
+<section id="antes-depois">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="kicker">Antes e depois</span>
+      <h2>Mesmos dados. Outra visão.</h2>
+    </div>
+    <div class="ba">
+      <div class="reveal">
+        <div class="ba-label"><span class="tag before">Antes</span></div>
+        <div class="sheet" role="img" aria-label="Exemplo ilustrativo de planilha bagunçada, com cores aleatórias, erros e várias versões do arquivo">
+          <div class="sheet-tabs"><span>Plan1</span><span class="on">FINAL_v3_revisado(2)</span><span>cópia de BASE</span><span>NÃO MEXER</span></div>
+          <table>
+            <tr><td>Data</td><td>Cliente</td><td>Valor</td><td>Forma pgto</td><td>Obs</td></tr>
+            <tr><td>03/01</td><td>LOJA 01</td><td>1.250,00</td><td>cartao</td><td class="g">conferir</td></tr>
+            <tr><td>2024-01-04</td><td>Loja 1</td><td class="y">R$ 980</td><td>Cartão</td><td></td></tr>
+            <tr><td>05/jan</td><td>loja01 </td><td class="err">#VALOR!</td><td>PIX</td><td class="r">??</td></tr>
+            <tr><td>06/01</td><td>LOJA 02</td><td>2310</td><td>pix</td><td class="o">ver c/ João</td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>08/01</td><td>Loja 2</td><td class="y">1.875,5</td><td>CARTÃO</td><td></td></tr>
+            <tr><td>09/01</td><td>LOJA 03</td><td class="err">#REF!</td><td>Débito</td><td class="r">URGENTE</td></tr>
+            <tr><td class="o">TOTAL</td><td></td><td class="o">=SOMA(C2:C7)</td><td></td><td class="g">atualizar à mão</td></tr>
+          </table>
+          <div class="sheet-note">Copiar para o PowerPoint e conferir de novo antes da reunião.</div>
+        </div>
+        <p class="ba-cap">Arrumar, copiar, colar e conferir. De novo a cada mês.</p>
+      </div>
+      <div class="reveal">
+        <div class="ba-label"><span class="tag after">Depois</span></div>
+        <div class="frame"><img src="assets/dash-2.jpg" alt="Dashboard de faturamento por tipo de recebimento feito no Excel, com total faturado, percentuais e gráficos" width="957" height="507" loading="lazy" decoding="async"></div>
+        <p class="ba-cap">Os números principais em uma tela, prontos para a reunião.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Galeria -->
+<section class="gallery">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="kicker">Feitos no Excel</span>
+      <h2>Dashboards 100% criados através do Excel, sem programação.</h2>
+      <p class="lead">Toque para ampliar.</p>
+    </div>
+    <div class="gal">
+      <figure class="reveal"><button type="button" data-full="assets/dash-6.jpg" data-alt="Dashboard de produção, com TAH, TCH, ATR e TON por ciclo"><img src="assets/dash-6.jpg" alt="Dashboard de produção, com TAH, TCH, ATR e TON por ciclo" width="1082" height="528" loading="lazy" decoding="async"></button><figcaption>Produção</figcaption></figure>
+      <figure class="reveal"><button type="button" data-full="assets/dash-8.jpg" data-alt="Dashboard de manejo integrado de pragas, com saúde dos lotes e doenças encontradas"><img src="assets/dash-8.jpg" alt="Dashboard de manejo integrado de pragas, com saúde dos lotes e doenças encontradas" width="1200" height="597" loading="lazy" decoding="async"></button><figcaption>Manejo integrado de pragas</figcaption></figure>
+      <figure class="reveal"><button type="button" data-full="assets/dash-9.jpg" data-alt="Dashboard de vendas, com participantes, faturamento, ranking e indicadores por regional"><img src="assets/dash-9.jpg" alt="Dashboard de vendas, com participantes, faturamento, ranking e indicadores por regional" width="1190" height="608" loading="lazy" decoding="async"></button><figcaption>Vendas por regional</figcaption></figure>
+      <figure class="reveal"><button type="button" data-full="assets/dash-5.jpg" data-alt="Dashboard de safra, com colheita por fazenda, por produto e por mês"><img src="assets/dash-5.jpg" alt="Dashboard de safra, com colheita por fazenda, por produto e por mês" width="1200" height="602" loading="lazy" decoding="async"></button><figcaption>Safra e colheita</figcaption></figure>
+      <figure class="reveal"><button type="button" data-full="assets/dash-7.jpg" data-alt="Dashboard de desempenho por máquina, com horas, hectares e desempenho de operadores"><img src="assets/dash-7.jpg" alt="Dashboard de desempenho por máquina, com horas, hectares e desempenho de operadores" width="1200" height="672" loading="lazy" decoding="async"></button><figcaption>Desempenho por máquina</figcaption></figure>
+      <figure class="reveal"><button type="button" data-full="assets/dash-3.jpg" data-alt="Dashboard de vendas, com faturamento por mês, ranking de vendedores e faturamento por produto"><img src="assets/dash-3.jpg" alt="Dashboard de vendas, com faturamento por mês, ranking de vendedores e faturamento por produto" width="913" height="455" loading="lazy" decoding="async"></button><figcaption>Vendas e faturamento</figcaption></figure>
+      <figure class="reveal"><button type="button" data-full="assets/dash-1.jpg" data-alt="Dashboard de desempenho esportivo por temporada"><img src="assets/dash-1.jpg" alt="Dashboard de desempenho esportivo por temporada" width="1200" height="593" loading="lazy" decoding="async"></button><figcaption>Desempenho por temporada</figcaption></figure>
+      <figure class="reveal"><button type="button" data-full="assets/dash-2.jpg" data-alt="Dashboard de faturamento por tipo de recebimento"><img src="assets/dash-2.jpg" alt="Dashboard de faturamento por tipo de recebimento" width="957" height="507" loading="lazy" decoding="async"></button><figcaption>Faturamento por tipo de recebimento</figcaption></figure>
+      <figure class="reveal"><button type="button" data-full="assets/dash-4.jpg" data-alt="Dashboard de pesquisa de satisfação"><img src="assets/dash-4.jpg" alt="Dashboard de pesquisa de satisfação" width="947" height="452" loading="lazy" decoding="async"></button><figcaption>Pesquisa de satisfação</figcaption></figure>
+    </div>
+    <p class="note reveal">Todos os dados são fictícios.</p>
+  </div>
+</section>
+
+<!-- 5. O que o participante consegue fazer -->
+<section class="outcomes">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="kicker">Ao final do treinamento</span>
+      <h2>O que o participante aprende a fazer</h2>
+    </div>
+    <div class="grid-4">
+      <div class="card reveal"><span class="num">01</span><h3>Criar Dashboards</h3><p>Montar painéis de indicadores visuais que apoiam a tomada de decisão.</p></div>
+      <div class="card reveal"><span class="num">02</span><h3>Parar de fazer tudo na mão</h3><p>Deixar para trás as tarefas manuais repetidas e o retrabalho de todo mês.</p></div>
+      <div class="card reveal"><span class="num">03</span><h3>Atualizar automaticamente</h3><p>Construir Dashboards que se atualizam quando os dados novos chegam.</p></div>
+      <div class="card reveal"><span class="num">04</span><h3>Estruturar planilhas do jeito certo</h3><p>Sem ficar mudando coluna, linha e fazendo fórmulas manuais.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Como funciona -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="kicker">Como funciona</span>
+      <h2>Formato pensado para a rotina da empresa</h2>
+    </div>
+    <div class="how-grid">
+      <div class="spec reveal">
+        <div><small>Formato</small><strong>Online e ao vivo</strong></div>
+        <div><small>Carga horária</small><strong>12 horas de treinamento</strong></div>
+        <div><small>Turma</small><strong>Até 20 pessoas</strong></div>
+        <div><small>Pré-requisito</small><strong>Basta usar Excel no dia a dia</strong></div>
+        <div style="grid-column:1/-1"><small>Para quem</small><strong>Qualquer nível, de qualquer área</strong></div>
+      </div>
+      <div class="incl reveal">
+        <h3>Está incluso</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Material de apoio</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Gravação das aulas</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Certificado</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Suporte pós-curso</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Quem ensina -->
+<section class="teacher">
+  <div class="wrap teacher-grid">
+    <img class="reveal" src="assets/karen.jpg" alt="Karen Abecia" width="560" height="700" loading="lazy" decoding="async">
+    <div class="reveal">
+      <span class="kicker">Quem ensina</span>
+      <h2>Karen Abecia</h2>
+      <p class="lead">Explica Excel de um jeito simples e direto, com exemplos do dia a dia do trabalho.</p>
+      <ul class="creds">
+        <li><b>6x</b><span>Microsoft MVP</span></li>
+        <li><b>20+</b><span>anos de experiência</span></li>
+        <li><b><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M10 8l4 2.5-4 2.5z"/><path d="M8 21h8"/></svg></b><span>Instrutora do LinkedIn Learning</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8. Prova social -->
+<section>
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="kicker">Quem já fez</span>
+      <h2>Nossa história com a São Martinho</h2>
+    </div>
+    <div class="sm-card reveal">
+      <img src="assets/logo-saomartinho.png" alt="São Martinho" width="120" height="120" loading="lazy">
+      <p><strong>Já realizamos turmas anteriores com a São Martinho, e os resultados foram um sucesso.</strong> Agora, a proposta é levar o treinamento a mais gestores e equipes.</p>
+    </div>
+    <div class="clients reveal">
+      <p>Outras empresas que já confiaram em nossos treinamentos</p>
+      <div class="logos">
+        <img src="assets/logo-syngenta.png" alt="Syngenta" width="347" height="120" loading="lazy">
+        <img src="assets/logo-upl.png" alt="UPL" width="200" height="120" loading="lazy">
+        <img src="assets/logo-raizen.png" alt="Raízen" width="240" height="120" loading="lazy">
+      </div>
+    </div>
+    <!-- Vídeo: para trocar, altere data-yt e o href, e substitua assets/video-capa.jpg -->
+    <div class="video reveal" id="video" data-yt="Gi21limdod0">
+      <a class="yt" href="https://www.youtube.com/watch?v=Gi21limdod0" target="_blank" rel="noopener" aria-label="Assistir ao vídeo do DashWay">
+        <img src="assets/video-capa.jpg" alt="" width="800" height="450" loading="lazy" decoding="async">
+        <span><svg width="72" height="50" viewBox="0 0 72 50" aria-hidden="true"><rect width="72" height="50" rx="14" fill="#ff5000"/><path d="M29 15l17 10-17 10z" fill="#fff"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Investimento -->
+<section class="pains" id="investimento">
+  <div class="wrap">
+    <div class="center reveal">
+      <span class="kicker">Investimento</span>
+      <h2>Condição especial para a São Martinho</h2>
+    </div>
+    <div class="price-box reveal">
+      <div class="price-top">
+        <span class="live">Treinamento online e ao vivo</span>
+        <div class="from">Valor de tabela <s>R$ 1.700</s> por aluno</div>
+        <div class="now">R$ 1.000 <small>por aluno</small></div>
+        <span class="save">Economia de R$ 700 por aluno (cerca de 41%)</span>
+      </div>
+      <div class="price-team">
+        <span>Turma completa, 20 pessoas</span>
+        <strong>R$ 20.000<s>R$ 34.000</s></strong>
+      </div>
+      <div class="price-team price-proj">
+        <span>Projeção: 4 turmas<small>80 pessoas, economia de R$ 56.000</small></span>
+        <strong>R$ 80.000<s>R$ 136.000</s></strong>
+      </div>
+    </div>
+    <div class="bonus reveal">
+      <div class="bonus-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18"/><path d="M12 8c-1.5-3-5-4-5.5-1.8C6 8 9 8 12 8zM12 8c1.5-3 5-4 5.5-1.8C18 8 15 8 12 8z"/></svg></div>
+      <div>
+        <span class="bonus-tag">Bônus especial</span>
+        <h3>1 ano de acesso à plataforma online, com suporte</h3>
+        <p>Depois do treinamento ao vivo, cada aluno recebe acesso à nossa plataforma com a gravação de todo o conteúdo, para ver e rever quantas vezes quiser durante 1 ano. Nesse período, também pode tirar todas as dúvidas técnicas com a nossa equipe de suporte.</p>
+      </div>
+    </div>
+    <p class="price-foot reveal">Antes de qualquer decisão, conheça o conteúdo na palestra gratuita.</p>
+  </div>
+</section>
+
+<!-- 10. Palestra gratuita -->
+<section class="talk" id="palestra">
+  <div class="wrap center">
+    <div class="reveal">
+      <span class="kicker">Primeiro passo</span>
+      <h2>Agende a palestra gratuita para a sua equipe</h2>
+      <p class="lead">Uma palestra online com a Karen para a sua área ver, na prática, o que é possível fazer com Dashboards no Excel.</p>
+      <ul class="talk-points">
+        <li>Online</li><li>1h de palestra</li><li>Sem custo</li><li>Sem compromisso</li>
+      </ul>
+      <a class="btn btn-primary js-agendar" href="mailto:stefano@t2t.com.br?subject=Agendar%20palestra%20gratuita%20DashWay">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        Agendar palestra gratuita
+      </a>
+      <div class="mail-help">
+        <span>Ou escreva para</span>
+        <code id="mail">stefano@t2t.com.br</code>
+        <button class="copy" type="button" id="copy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>
+          <span>Copiar e-mail</span>
+        </button>
+      </div>
+      <p class="mail-tip">No e-mail, informe: seu nome, empresa e área, número de participantes e os melhores dias e horários.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="assets/logo-karen.png" alt="Escola Karen Abecia" width="360" height="123" loading="lazy">
+    <span>DashWay, Dashboards no Excel · Escola Karen Abecia · <a href="mailto:stefano@t2t.com.br">stefano@t2t.com.br</a></span>
+  </div>
+</footer>
+
+<div class="mbar" id="mbar"><a class="btn btn-primary js-agendar" href="mailto:stefano@t2t.com.br?subject=Agendar%20palestra%20gratuita%20DashWay">Agendar palestra gratuita</a></div>
+
+<dialog class="lightbox" id="lb" aria-label="Dashboard ampliado">
+  <form method="dialog"><button aria-label="Fechar">&times;</button></form>
+  <img id="lbimg" src="" alt="">
+</dialog>
+
+<script>
+(function(){
+  var EMAIL = "stefano@t2t.com.br";
+  var subject = "Agendar palestra gratuita DashWay - São Martinho";
+  var body = [
+    "Olá, Stefano.",
+    "",
+    "Gostaria de agendar a palestra gratuita do DashWay para a minha equipe.",
+    "",
+    "Nome: ",
+    "Empresa / área: ",
+    "Número aproximado de participantes: ",
+    "Melhores dias e horários: ",
+    "",
+    "Obrigado(a)."
+  ].join("\r\n");
+  var href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  document.querySelectorAll(".js-agendar").forEach(function(a){ a.href = href; });
+
+  // Copiar e-mail
+  var btn = document.getElementById("copy"), label = btn.querySelector("span");
+  function done(){ btn.classList.add("ok"); label.textContent = "E-mail copiado"; setTimeout(function(){ btn.classList.remove("ok"); label.textContent = "Copiar e-mail"; }, 2500); }
+  function fallback(){
+    var t = document.createElement("textarea"); t.value = EMAIL; t.setAttribute("readonly",""); t.style.position="fixed"; t.style.opacity="0";
+    document.body.appendChild(t); t.select(); try { document.execCommand("copy"); done(); } catch(e) { label.textContent = "Selecione e copie"; } document.body.removeChild(t);
+  }
+  btn.addEventListener("click", function(){
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(EMAIL).then(done, fallback); else fallback();
+  });
+
+  // Topo com borda e CTA fixo no celular
+  var top = document.getElementById("top"), mbar = document.getElementById("mbar"), talk = document.getElementById("palestra");
+  var talkVisible = false;
+  function onScroll(){
+    var y = window.scrollY;
+    top.classList.toggle("scrolled", y > 8);
+    mbar.classList.toggle("show", y > 700 && !talkVisible);
+  }
+  window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+  // Animação sutil de entrada
+  var els = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, {rootMargin:"0px 0px -8% 0px"});
+    els.forEach(function(el){ io.observe(el); });
+    new IntersectionObserver(function(entries){ talkVisible = entries[0].isIntersecting; onScroll(); }).observe(talk);
+  } else { els.forEach(function(el){ el.classList.add("in"); }); }
+
+  // Ampliar Dashboards
+  var lb = document.getElementById("lb"), lbimg = document.getElementById("lbimg");
+  document.querySelectorAll(".gal button").forEach(function(b){
+    b.addEventListener("click", function(){
+      if (!lb.showModal) { window.open(b.dataset.full, "_blank"); return; }
+      lbimg.src = b.dataset.full; lbimg.alt = b.dataset.alt; lb.showModal();
+    });
+  });
+  lb.addEventListener("click", function(e){ if (e.target === lb) lb.close(); });
+
+  // Vídeo do YouTube sob demanda: capa local, o player só carrega ao clicar
+  var v = document.getElementById("video"), id = v.getAttribute("data-yt");
+  v.querySelector("a").addEventListener("click", function(e){
+    e.preventDefault();
+    this.outerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0" title="Vídeo DashWay" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+  }, {once:true});
+})();
+</script>
+</body>
+</html>
